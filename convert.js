@@ -1,6 +1,6 @@
 const map = r => ({
   'order date': r[Object.keys(r)[0]], // TODO
-  'recipient email': r['buyer email'] || 'mail@juliangruber.com', // TODO
+  'email': r['buyer email'] || 'mail@juliangruber.com', // TODO
   'phone number': r['buyer phone'] || '00491717545172', // TODO
   'recipient name': r['ship to name'],
   'street (line 1)': r['ship to street'],
@@ -14,7 +14,7 @@ const map = r => ({
   'item quantity': r.quantity,
   'total order price': r['order total'],
   'order currency': r.currency,
-  'sku number': r.sku,
+  'sku': r.sku,
   'order number': r['bandcamp transaction id']
 })
 
