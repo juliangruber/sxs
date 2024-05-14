@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SXS TRVNSFVRM</title>
+  <title>SXS</title>
   <style>
     body {
       margin: 0;
       text-align: center;
       font-family: Arial, Helvetica, sans-serif;
-    }
-    textarea {
-      display: block;
       width: 100%;
+      height: 100%;
+      position: absolute;
     }
   </style>
   <script type="module">
@@ -19,25 +18,34 @@
     import { convert } from './convert.js'
 
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('button').addEventListener('click', async () => {
-        document.getElementById('result').innerText = ''
-        document.getElementById('output').value = convert(
-          document.getElementById('input').value,
-          parse,
-          stringify
-        )
-        setTimeout(
-          () => document.getElementById('result').innerText = 'Meddl',
-          1000
-        )
+      document.body.addEventListener('dragenter', ev => {
+        ev.preventDefault()
+      })
+      document.body.addEventListener('dragover', ev => {
+        ev.preventDefault()
+      })
+      document.body.addEventListener('drop', ev => {
+        ev.preventDefault()
+        const reader = new FileReader()
+        reader.readAsText(ev.dataTransfer.items[0].getAsFile())
+        reader.addEventListener('load', () => {
+          const result = convert(
+            reader.result.toString(),
+            parse,
+            stringify
+          )
+          const a = document.createElement('a')
+          const blob = new Blob([result], { type: 'text/csv' })
+          const url = URL.createObjectURL(blob)
+          a.setAttribute('href', url)
+          a.setAttribute('download', 'senf.csv')
+          a.click()
+        })
       })
     })
   </script>
-  <h2>Bandcamp CSV</h2>
-  <textarea id="input" rows="10"></textarea>
-  <br />
-  <button>TRVNSFVRM</button>
-  <h2>Shippo CSV</h2>
-  <textarea id="output" rows="10"></textarea>
-  <p id="result"></p>
+</head>
+<body>
+  <p>Senftool 👋</p>
+</body>
 </html>
